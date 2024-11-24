@@ -22,8 +22,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvContactos"
-        android:layout_width="377dp"
-        android:layout_height="655dp"
+        android:layout_width="399dp"
+        android:layout_height="839dp"
         android:layout_marginStart="18dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="18dp"

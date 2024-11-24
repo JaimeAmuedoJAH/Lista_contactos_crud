@@ -1,10 +1,9 @@
 package com.jah.lista_contactos_crud;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,17 +12,21 @@ import android.widget.EditText;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     MaterialToolbar mtbMenu;
     RecyclerView rvContactos;
-    LinearLayoutManager disposicion;
+    LinearLayoutManager disposicionp;
     AdaptadorContactos adaptadorContactos;
+    GridLayoutManager disposicionl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +36,42 @@ public class MainActivity extends AppCompatActivity {
         initComponents();
 
         setSupportActionBar(mtbMenu);
+
+        if(savedInstanceState != null){
+            GestionContactos.setArrContactos((ArrayList<Contacto>) savedInstanceState.getSerializable("contactos"));
+            if (GestionContactos.getArrContactos() != null) {
+                GestionContactos.setArrContactos(GestionContactos.getArrContactos());
+            }
+            if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+                disposicionp = new LinearLayoutManager(getApplicationContext());
+                rvContactos.setLayoutManager(disposicionp);
+            }else{
+                disposicionl = new GridLayoutManager(getApplicationContext(), 2);
+                rvContactos.setLayoutManager(disposicionl);
+            }
+            adaptadorContactos = new AdaptadorContactos(GestionContactos.getArrContactos());
+            rvContactos.setAdapter(adaptadorContactos);
+        }
     }
 
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        disposicion = new LinearLayoutManager(getApplicationContext());
-        rvContactos.setLayoutManager(disposicion);
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            disposicionp = new LinearLayoutManager(getApplicationContext());
+            rvContactos.setLayoutManager(disposicionp);
+        }else{
+            disposicionl = new GridLayoutManager(getApplicationContext(), 2);
+            rvContactos.setLayoutManager(disposicionl);
+        }
         adaptadorContactos = new AdaptadorContactos(GestionContactos.getArrContactos());
         rvContactos.setAdapter(adaptadorContactos);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("contactos", new ArrayList<>(GestionContactos.getArrContactos()));
     }
 
     @Override
@@ -58,8 +88,13 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }else if(item.getItemId() == R.id.item_nombre){
             GestionContactos.ordenarPorNombre();
-            disposicion = new LinearLayoutManager(getApplicationContext());
-            rvContactos.setLayoutManager(disposicion);
+            if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+                disposicionp = new LinearLayoutManager(getApplicationContext());
+                rvContactos.setLayoutManager(disposicionp);
+            }else{
+                disposicionl = new GridLayoutManager(getApplicationContext(), 2);
+                rvContactos.setLayoutManager(disposicionl);
+            }
             adaptadorContactos = new AdaptadorContactos(GestionContactos.getArrContactos());
             rvContactos.setAdapter(adaptadorContactos);
         }else if(item.getItemId() == R.id.item_salir){
@@ -114,8 +149,13 @@ public class MainActivity extends AppCompatActivity {
                 .setNegativeButton(R.string.dialog_salir_negative, null)
                 .setPositiveButton(R.string.dialog_salir_positive, (dialogInterface, i) -> {
                     GestionContactos.borrarContacto(numero);
-                    disposicion = new LinearLayoutManager(getApplicationContext());
-                    rvContactos.setLayoutManager(disposicion);
+                    if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+                        disposicionp = new LinearLayoutManager(getApplicationContext());
+                        rvContactos.setLayoutManager(disposicionp);
+                    }else{
+                        disposicionl = new GridLayoutManager(getApplicationContext(), 2);
+                        rvContactos.setLayoutManager(disposicionl);
+                    }
                     adaptadorContactos = new AdaptadorContactos(GestionContactos.getArrContactos());
                     rvContactos.setAdapter(adaptadorContactos);
                 })
@@ -137,10 +177,16 @@ public class MainActivity extends AppCompatActivity {
     private void initComponents() {
         rvContactos = findViewById(R.id.rvContactos);
         mtbMenu = findViewById(R.id.mtbMenu);
-        disposicion = new LinearLayoutManager(getApplicationContext());
-        rvContactos.setLayoutManager(disposicion);
         GestionContactos.cargarContactos();
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            disposicionp = new LinearLayoutManager(getApplicationContext());
+            rvContactos.setLayoutManager(disposicionp);
+        }else{
+            disposicionl = new GridLayoutManager(getApplicationContext(), 2);
+            rvContactos.setLayoutManager(disposicionl);
+        }
         adaptadorContactos = new AdaptadorContactos(GestionContactos.getArrContactos());
         rvContactos.setAdapter(adaptadorContactos);
+
     }
 }
