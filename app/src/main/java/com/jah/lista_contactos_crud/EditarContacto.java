@@ -23,8 +23,6 @@ public class EditarContacto extends AppCompatActivity {
     Intent data;
     Contacto c;
     int posicion;
-    LinearLayoutManager disposicion;
-    AdaptadorContactos adaptadorContactos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
