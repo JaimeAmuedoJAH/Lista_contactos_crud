@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Lista_contactos_crud</string>
+    <string name="item_salir">Salir</string>
+    <string name="item_nueva">Nueva</string>
+    <string name="item_borrar">Borrar</string>
+    <string name="item_ordenar">Ordenar</string>
+    <string name="item_editar">Editar</string>
+    <string name="item_nombre">Por nombre</string>
+    <string name="mtb_contactos">Tus contactos</string>
+    <string name="dialog_salir_title">SALIR DE LA APP</string>
+    <string name="dialog_salir_message">¿Quieres salir de la app?</string>
+    <string name="dialog_salir_negative">No</string>
+    <string name="dialog_salir_positive">Si</string>
+
+    <string name="dialog_borrar_title">¿Que contacto quieres eliminar?</string>
+    <string name="dialog_confirm_title">BORRAR CONTACTO</string>
+    <string name="dialog_confirm_message">¿Deseas borrar este contacto?</string>
+    <string name="dialog_editar_title">¿Que contacto quieres editar?</string>
+    <string name="lbl_add">AÑADIR CONTACTO</string>
+    <string name="add_nombre_hint">Nombre</string>
+    <string name="add_telefono_hint">Telefono</string>
+</resources>
